@@ -1,0 +1,133 @@
+body{
+	background-color:#EDF7FC;
+}
+
+.my-form{
+	margin-top:40px;
+	margin-bottom:40px;
+	background-color:#ffff;
+	padding:20px;
+}
+
+.edit-photo img {
+	width:50%;
+	height:auto;
+}
+
+
+@media only screen and (min-width:400px) {
+  .rooms {
+    margin-right:1em !important;
+    margin-left:1em !important;
+  }
+  
+  .room-list{
+  	padding: 0 !important;
+  }
+  .details div{
+  	padding-left:30px;
+  	padding-bottom:20px !important;
+  	margin-bottom:5px !important;
+  .description{
+  	padding-bottom:20px;
+  }
+  
+  }
+  .details{
+  margin-right:5px;
+  margin-left:5px;
+  	
+  	}
+  	#gallery{
+  		margin-left:25% !important;
+  		margin-right:25% !important;
+  	}
+ 
+}
+
+
+
+#profile-pic{
+	width:100px !important;
+}
+
+
+.rooms img{
+	width:100%;
+	height:auto
+	max-height:60%;
+}
+
+
+.owner-thumbnail{
+	width:150px;
+	height:150px;
+	
+}
+
+
+
+.img-container img{
+	width:100%;
+	height:auto
+	max-height:60%;
+}
+
+
+.custom-card{
+	background-color:#fff;
+	margin-left:30px;
+	margin-right:30px;
+}
+
+
+
+.custom-card img{
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+
+
+ .details{
+padding:10px;
+margin-bottom:20px !important;	
+
+
+}
+
+.details div{
+	margin-left:10px !important;
+	margin-right:10px !important;
+	margin-bottom:0 !important;	
+	
+}
+
+
+.email-form{
+	margin-top:3px !important;
+}
+
+.detail-line{
+	color:#0000 !important;
+	background-color:lightblue !important;
+}
+
+.room-thumbnails .img-container{
+	margin-top:5px !important;
+	margin-bottom:5px !important;
+	
+}
+
+
+.custom-card .description{
+	margin-left:20px;
+	margin-margin-bottom:20px
+}
+
+.booking{
+	font-size: .8em !important;
+	font-weight:1.1em;
+	padding-bottom:5px !important;
+		padding-top:2px !important;
+}

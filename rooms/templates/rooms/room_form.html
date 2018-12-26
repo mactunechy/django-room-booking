@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% block title %}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+
+		<h3 class="text-center text-info"><i class="fa fa-image fa-LG"></i>&nbsp;&nbsp; Add a new room</h3>
+<hr>				
+		<div class="row justify-content-center">
+			<div class="col-sm-6 my-form">
+				<form class="login" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}  
+ 		{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+
+{% for field in form.visible_fields %}
+  <div class="form-group">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>{% if field.help_text %}<small class="pull-right text-success">{{field.help_text}}</small>{% endif %}
+    {% render_field field  class+='form-control' %}
+    {% for error in field.errors %}
+      <span class="help-block text-danger">{{ error }}</span>
+    {% endfor %}
+  </div>
+{% endfor %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="primaryAction btn btn-block btn-info" type="submit">{% trans "Save" %}</button><br>
+    </form>
+
+
+			
+	
+	
+</div>
+
+
+
+		
+			</div>
+		</div>
+
+{%  endblock %}

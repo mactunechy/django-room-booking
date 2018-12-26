@@ -1,0 +1,48 @@
+{% extends "account/base.html" %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+<h3>{% trans "Sign Up" %}</h3>
+{% if form.non_field_errors %}
+
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger alert-with-icon" data-notify="container">
+                    <div class="container">
+                        <div class="alert-wrapper">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <div class="message"><i class="nc-icon nc-bell-55"></i> {{error}}</div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+     
+    
+    {% endif %}
+
+
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+<form class="login" method="POST" action="{% url 'account_signup' %}">
+  {% csrf_token %}  
+ 		{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+
+{% for field in form.visible_fields %}
+  <div class="form-group">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% render_field field class+='form-control' %}
+    {% for error in field.errors %}
+      <span class="help-block text-danger">{{ error }}</span>
+    {% endfor %}
+  </div>
+{% endfor %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="/accounts/profile/" /><button class="primaryAction btn btn-block btn-info" type="submit">{% trans "Sign Up" %} &raquo;</button><br>
+    </form>
+
+{% endblock %}

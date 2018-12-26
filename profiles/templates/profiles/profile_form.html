@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+
+{% block messages %}
+
+    {% if messages %}
+   
+        {% for message in messages %}
+           <div class="alert alert-danger py-2 mt-3 mb-1 alert-with-icon" data-notify="container">
+                    <div class="container mb-1">
+                        <div class="alert-wrapper">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <div class="message"><i class="nc-icon nc-bell-55"></i>{{message}}</div>
+                        </div>
+                    </div>
+                </div>
+     				
+        {% endfor %}
+    
+  
+    {% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+	
+<div class="row justify-content-center">
+	<div class="my-form col-sm-8">
+		<div class=" edit-photo text-center">
+			<div class="avatar">
+                        <img src=" {% if request.user.profile.image %} {{request.user.profile.image.url}} {% else %} /media/profiles/default.png/ {% endif %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                    </div>
+		</div>
+		<h3>{% trans "Edit Profile" %}</h3>
+		
+		{% if form.non_field_errors %}
+
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger alert-with-icon" data-notify="container">
+                    <div class="container">
+                        <div class="alert-wrapper">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <div class="message"><i class="nc-icon nc-bell-55"></i> {{error}}</div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+     
+    
+    {% endif %}
+
+		
+		
+<form class="login" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}  
+ 		{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+
+{% for field in form.visible_fields %}
+  <div class="form-group">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% render_field field class+='form-control' %}
+    {% for error in field.errors %}
+      <span class="help-block text-danger">{{ error }}</span>
+    {% endfor %}
+  </div>
+{% endfor %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="primaryAction btn btn-block btn-info" type="submit">{% trans "Save" %}</button><br>
+    </form>
+
+	
+	</div>
+	
+</div>
+</div>
+
+
+
+{% endblock %}

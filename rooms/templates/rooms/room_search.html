@@ -1,0 +1,59 @@
+ {% extends 'base.html' %} 
+ {% load widget_tweaks %} 
+  {% block content %}
+  
+  <div class="container-fluid">
+  	<div class="my-form">
+  		<form class="form-group form-row">
+  			{% for field in filter.form.visible_fields %}
+  <div class="col-xs-6 col-md-4">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>{% if field.help_text %}<small class="pull-right text-success">{{field.help_text}}</small>{% endif %}
+    {% render_field field  class+='form-control' %}
+    {% for error in field.errors %}
+      <span class="help-block text-danger">{{ error }}</span>
+    {% endfor %}
+  </div>
+{% endfor %}
+
+<button class="btn  mt-3 btn-info">Search <i class="fa fa-search"></i> </button>
+  		</form>
+  	</div>  	
+
+  
+  <h3 class="text-muted text-center">Results</h3>
+  <hr>
+  		<div class='row  py-1 my-1 room-list justify-content-center'>
+		{% for object in filter.qs %}
+		<div class="col-sm-5 col-md-4 pt-2 px-1 mx-auto mb-3 pb-2 rooms card">
+			<div class="card-image">
+				<img class="img-responsvie " src="{{object.images.first.file.url}}" alt="room-photo">
+					
+					
+					<div class="mt-0 card-footer">
+						<p class="">{{object.town}} {% if object.is_available %}<small class="pull-right"> available <i class="fa fa-key"></i></small>{% endif %}</p> 
+						<hr class="mt-0">
+						<a class="btn btn-info btn-sm" href="{% url 'room_detail' pk=object.pk %}"> <i class="fa   fa-phone-square"></i> </a>
+							<a class="btn btn-info btn-sm" href="{% url 'room_like' pk=object.pk %}"><i class="fa fa-book"></i></a>
+						<button class=" btn btn-info btn-sm" ><i class="fa  fa-eye"></i> <span class="text-white">{{object.views}}</span></button>
+						<a class=" btn btn-info btn-sm text-danger" href="{% url 'room_like' pk=object.pk %}"><i class="fa fa-heart background-danger"></i> <span class="text-white">{{object.likes}}</span></a>
+				
+					</div>
+					<small class="text-muted ml-3" >ID: {{object.room_id}}</small>
+					<span class="pull-right text-danger mr-3 " ><h4>${{object.price}}</h4></span>
+			</div>
+		</div>
+		{% empty %}
+		<div style="min-height:300px">
+		<h4 class="text-center mb-4"> No results Found</h4>
+		</div>
+		{% endfor %}
+		
+		</div>
+	
+  
+  
+  
+    </div>
+  
+  
+  {% endblock %}

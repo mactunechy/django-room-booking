@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			update-room
+		</title>
+	</head>
+	
+	<body>
+		<h2>Update room information</h2>
+		
+		<form method="POST">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input type="submit" value="save">
+		</form>
+		
+		
+	</body>
+</html>

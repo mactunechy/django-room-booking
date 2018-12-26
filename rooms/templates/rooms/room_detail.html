@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+		{% block title %}{{object.room_id|truncatechars:4}}{% endblock %}
+	
+	{% block content %}
+	<div class="container-fluid" >
+		
+		
+
+    {% if messages %}
+   
+        {% for message in messages %}
+           <div class="alert  alert-danger py-2 mt-3 mb-1 alert-with-icon" data-notify="container">
+                    <div class="container mb-1">
+                        <div class="alert-wrapper">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <div class="message"><i class="nc-icon nc-bell-55"></i>{{message}}</div>
+                        </div>
+                    </div>
+                </div>
+     				
+        {% endfor %}
+    
+  
+    {% endif %}
+
+
+		
+		
+		{% if email_form.non_field_errors %}
+
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger alert-with-icon" data-notify="container">
+                    <div class="container">
+                        <div class="alert-wrapper">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <div class="message"><i class="nc-icon nc-bell-55"></i> {{error}}</div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+     
+    
+    {% endif %}
+
+		<header class="img-header custom-card row my-4 justify-content-center">
+				<h2 class="pull-left text-danger mt-3"><b>{{object.price}}</b> <small>p/m</small><small> <span class="ml-4 badge {% if object.is_available %} badge-success {% else %} badge-default{% endif %}">{% if object.is_available %}<i class="fa fa-smile-o"></i> &nbsp; available {% else %} <i class="fa fa-hourglass-o"></i> already booked {% endif %}</span></small></h2>
+			
+			<div class="col-md-4 text-center">
+			
+				<img class="img-responsive img-circle owner-thumbnail" src="{% if object.owner.profile.image %}{{object.owner.profile.image.url}} {% else %}/media/profiles/default.png {% endif %}" alt="">
+			</div>
+			<div class="owner-detail mt-4">
+				<h6>{{object.owner.username}}</h6>
+				<h6>{{object.owner.email}}</h6>
+				<h6>{{object.owner.profile.phone}}</h6>
+				<h6>{{object.owner.profile.address_line1}}</h6>
+				{% if object.owner.profile.address_line2 %}<h6>{{object.owner.profile.address_line2}}</h6>
+				{% endif %}
+				<a class="btn btn-info btn-link" href="{% url 'profile_detail' pk=object.owner.pk %}">owner profile</a>
+			</div>	
+		</header>
+		
+		<section class="row room-thumbnails justify-content-center mt-2 p-2">
+			{% for image in object.images.all %}
+			<div class="img-container my-form col-sm-5 col-md-3">
+			
+				<img class="img-responsive" src="{{image.file.url}}" alt="">
+			</div>
+			<h3 class="text-center"> No images added yet {% if  object.owner is resquest.user %} - <a href="{% url 'photo_list' pk=object.pk %}" class="btn btn-success">add room images</a> {% endif %}</h3>
+			
+			{% endfor %}		</section>
+		
+		
+		<section class="row details mb-2 justify-content-center">
+			<div class="col-md-6 custom-card mx-auto" >
+			<h4 class="text-center card-title text-info"> <i class="fa fa-hotel">  </i> <b>  &nbsp;&nbsp; Furniture & Property</b></h4>
+			<hr class="detail-line">
+			<ul>
+				{% for object in furniture %}
+				<p>{{object}}</p>
+				{% endfor %}	
+			</ul>
+			</div>
+
+			<div class="col-md-5 custom-card mx-auto px-2" >
+				<h4 class="card-title text-center text-info"> <i class="fa fa-home fa-lg"></i> <b> &nbsp;&nbsp;  Room features <b></h4>
+				<hr class="detail-line">
+				<p class="description">{{object.description}}</p>
+			</div>
+				</section>
+		
+		<section class="row my-form mx-4 email-form justify-content-center">
+			<div class="col-md-6 ">
+						<h4 class="card-title text-center ml-auto mr-auto" > <span class="text-info"><i class="fa fa-phone"></i> &nbsp;&nbsp; Contact</span>   - {{object.owner.username}}</h4>
+<form class="login" method="POST" action="{% url 'room_detail' pk=object.pk %}" enctype="multipart/form-data">
+  {% csrf_token %}  
+ 		{% for hidden in form.hidden_fields %}
+  {{ hidden }}
+{% endfor %}
+
+{% for field in email_form.visible_fields %}
+  <div class="form-group">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% render_field field class+='form-control' %}
+    {% for error in field.errors %}
+      <span class="help-block text-danger">{{ error }}</span>
+    {% endfor %}
+  </div>
+{% endfor %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="primaryAction btn btn-block btn-info" type="submit">{% trans "Send" %}</button><br>
+    </form>
+
+
+			</div>
+		</section>
+	</div>
+
+	
+	{% endblock %}
+	

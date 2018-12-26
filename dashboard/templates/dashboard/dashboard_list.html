@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="container-fluid">
+			 {% if messages %}
+   
+        {% for message in messages %}
+           <div class="alert alert-danger py-2 mt-3 mb-1 alert-with-icon" data-notify="container">
+                    <div class="container mb-1">
+                        <div class="alert-wrapper">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <i class="nc-icon nc-simple-remove"></i>
+                            </button>
+                            <div class="message"><i class="nc-icon nc-bell-55"></i>{{message}}</div>
+                        </div>
+                    </div>
+                </div>
+     				
+        {% endfor %}
+    
+  
+    {% endif %}
+
+		<div class="row justify-content-center ">
+	
+			<div class="col-11 row  my-form">
+				<div class="  col-4 col-sm-2 ">
+				<div class="avatar">
+                 <a href="{% url 'profile_update' pk=request.user.profile.pk %}"/>       <img  src=" {% if request.user.profile.image %} {{request.user.profile.image.url}} {% else %} /media/profiles/default.png/ {% endif %}" alt="Circle Image" class="img-circle img-no-padding img-responsive"> </a>
+                    </div>
+			</div>
+			<div class=" col-12 col-sm-4 mt-0 pt-0 ">
+				<h4> {{request.user.username}} </4>
+				<p class="text-muted">{{request.user.email}}</p>
+			</div>
+			<div class="col-12 col-sm-2"></div>
+			<div class="col-12 col-sm-4 pull-right">
+				<p > available:  <span class="badge badge-success">{{available}}</span></p>
+				<p > booked:  <span class="badge badge-danger">{{booked}}</span></p>
+			</div>
+			<hr>
+
+				
+				 </div>
+					</div>
+		
+		
+		<div class='row  py-1 my-1 room-list justify-content-center'>
+		{% for object in object_list %}
+		<div class="col-sm-5 col-md-4 pt-2 px-1 mx-auto mb-3 pb-2 rooms card">
+			<div class="card-image">
+				<img class="img-responsvie " src="{{object.images.first.file.url}}" alt="room-photo">
+					
+					
+					<div class="mt-0 card-footer">
+						<p class="">{{object.town}} {% if object.is_available %}<a href="{% url 'booked' pk=object.pk %}" class="pull-right btn  btn-link btn-success"><small class="booking">available</small>  <i class="fa fa-key"></i></a>{% else %}<a href="{% url 'booked' pk=object.pk %}" class="pull-right btn btn-link btn-danger"><small class="booking">booked</small>  <i class="fa fa-key"></i></a> {% endif %}</p> 
+						<hr class="mt-0">
+						<a class="btn btn-info btn-sm" href="{% url 'room_detail' pk=object.pk %}"> <i class="fa   fa-phone-square"></i> </a>
+							<a class="btn btn-info btn-sm" href="{% url 'room_like' pk=object.pk %}"><i class="fa fa-book"></i></a>
+						<button class=" btn btn-info btn-sm" ><i class="fa  fa-eye"></i> <span class="text-white">{{object.views}}</span></button>
+						<a class=" btn btn-info btn-sm text-danger" href="{% url 'room_like' pk=object.pk %}"><i class="fa fa-heart background-danger"></i> <span class="text-white">{{object.likes}}</span></a>
+				
+					</div>
+					<small class="text-muted ml-3" >ID: {{object.room_id}}</small>
+					<span class="pull-right text-danger mr-3 " ><h4>${{object.price}}</h4></span>
+			</div>
+		</div>
+				{% empty%}
+				<h3 text-center>No rooms added yet</h3>
+				
+				{% endfor %}
+		
+		</div>
+		
+	
+
+
+{% if is_paginated %}
+<div class="row justify-content-center">
+	<div class="col-4 text-center">
+		<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+    	<a class="page-link" href="?page={{ rooms.previous_page_number }}" aria-label="Previous">
+                                            <i class="fa fa-angle-left" aria-hidden="true"></i><span class="sr-only">Previous</span>
+       </a>
+       </li>
+     
+      
+    {% else %}
+    <li class="disabled page-item"><span class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if rooms.number == i %}
+        <li class="active page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+                       <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+     {% else %}
+      <li class="disabled page-item"><span class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></span></li>
+    {% endif %}
+  </ul>
+  </nav>
+
+	</div>
+</div>
+ {% endif %}
+
+
+
+
+
+</div>	
+
+{% endblock %}

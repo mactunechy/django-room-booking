@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="container-fluid">
+	
+<div class="row justify-content-center">
+	<div class="my-form col-sm-8">
+		<div class=" edit-photo text-center">
+			<div class="avatar">
+                        <img src=" {% if admin.profile.image %} {{admin.profile.image.url}} {% else %} /media/profiles/default.png/ {% endif %}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                    </div>
+		</div>
+		<br>
+		<blockquote class="blockquote mb-3">
+			<span style="font-size:1.1em" class="text-info">Hi</span>, I'm {{admin.username}} and i am the Co-founder of HomeFineDer, a platform where people come together and share accomodation.The first time i was in India,I experienced a challenge in securing a place to crush for a couple of days. I thought to myself i could come up with a solution.
+			<footer class="blockquote-footer">
+				<p> CEO and Founder</p>
+			</footer>
+		</blockquote>
+		<p class="lead">
+			HomeFineDer is a online Rooms and Appartment rental agency where people can Can register and advertise their property and seek tenants as well as tenants seeking for apartments to rent. if You own a Room or Apartment and you wish to fine a tenant real quick. <a href="{% url 'account_signup'%}">Register</a> and Add your room to the listing.
+		</p>
+		
+		
+	</div>
+	
+</div>
+</div>
+
+
+
+
+
+{% endblock %}
